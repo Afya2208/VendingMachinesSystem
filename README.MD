@@ -3,15 +3,15 @@
 Это информационная система франшизы вендинговых торговых автоматов.
 
 В систему входят:
-- База данных PostgreSQL - [/Models (Entities, DTO)](https://github.com/Afya2208/VendingMachinesSystem/tree/main/Models)
-- Web-API ASP.NET Core - [/API](https://github.com/Afya2208/VendingMachinesSystem/tree/main/API)
-- Настольное приложение Avalonia франчайзера для учета вендинговых автоматов и компаний-партнеров - [/DesktopApp](https://github.com/Afya2208/VendingMachinesSystem/tree/main/DesktopApp)
-- Мобильное приложение на Kotlin для обслужающего персонала торговых автоматов - [/MobileApp](https://github.com/Afya2208/VendingMachinesSystem/tree/main/MobileApp)
-- Веб-сайт на Next.js личного кабинета франчайзи для аренды торговых автоматов - [/website](https://github.com/Afya2208/VendingMachinesSystem/tree/main/website)
+- База данных PostgreSQL - [/Models (Entities, DTO)](https://github.com/Afya2208/VendingMachinesSystem/tree/master/Models)
+- Web-API ASP.NET Core - [/API](https://github.com/Afya2208/VendingMachinesSystem/tree/master/API)
+- Настольное приложение Avalonia франчайзера для учета вендинговых автоматов и компаний-партнеров - [/DesktopApp](https://github.com/Afya2208/VendingMachinesSystem/tree/master/DesktopApp)
+- Мобильное приложение на Kotlin для обслужающего персонала торговых автоматов - [/MobileApp](https://github.com/Afya2208/VendingMachinesSystem/tree/master/MobileApp)
+- Веб-сайт на Next.js личного кабинета франчайзи для аренды торговых автоматов - [/website](https://github.com/Afya2208/VendingMachinesSystem/tree/master/website)
 
-Тесты на XUnit (Selenium, Headless Avalonia) - [/Tests](https://github.com/Afya2208/VendingMachinesSystem/tree/main/Tests)
+Тесты на XUnit (Selenium, Headless Avalonia) - [/Tests](https://github.com/Afya2208/VendingMachinesSystem/tree/master/Tests)
 
-UML диаграммы, бизнес-анализ - [/Business analysis, diagrams](https://github.com/Afya2208/VendingMachinesSystem/tree/main/Business%20analysis,%20diagrams)
+UML диаграммы, бизнес-анализ - [/Business analysis, diagrams](https://github.com/Afya2208/VendingMachinesSystem/tree/master/Business%20analysis,%20diagrams)
 
 Настольное приложение личного кабинета франчайзера позволяет управлять информацией о вендинговых торговых автоматах и компаниях-партнерах. На главной странице отображаются диаграммы и аналитика по состоянию ТА, продажам, сводка статистики и новостей. Есть разделы Торговые автоматы и Компании.
 
@@ -90,11 +90,11 @@ UML диаграммы, бизнес-анализ - [/Business analysis, diagram
 
 ### Веб-сайт
 
-Пока в процессе разработки, переписывается старый код - [текущее состояние проекта website](https://github.com/Afya2208/VendingMachinesSystem/tree/main/website).
+Пока в процессе разработки, переписывается старый код - [текущее состояние проекта website](https://github.com/Afya2208/VendingMachinesSystem/tree/master/website).
 
 ### Мобильное приложение
 
-Пока в процессе разработки, переписывается старый код - [текущее состояние проекта MobileApp](https://github.com/Afya2208/VendingMachinesSystem/tree/main/MobileApp).
+Пока в процессе разработки, переписывается старый код - [текущее состояние проекта MobileApp](https://github.com/Afya2208/VendingMachinesSystem/tree/master/MobileApp).
 
 
 
