@@ -1,0 +1,14 @@
+.sidebar {
+    position: fixed;
+    padding: 5px;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: crimson;
+    color: white;
+}
+.content {
+    margin-left: 200px;
+    padding: 10px;
+}

@@ -1,0 +1,12 @@
+.item {
+    width: 100px;
+    background-color: crimson;
+}
+.list li{
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+}
+.tableItems tr:nth-child(odd) {
+    background-color: crimson;
+}

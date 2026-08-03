@@ -1,0 +1,163 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800"
+             xmlns:vm="clr-namespace:DesktopApp.ViewModels.Pages"
+             xmlns:charts="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             x:DataType="vm:MainPageViewModel"
+             Loaded="Page_OnLoaded"
+             x:Class="DesktopApp.Views.Pages.MainPage">
+    <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*,*" Background="{StaticResource LightColor}">
+        <TextBlock Grid.ColumnSpan="3" Classes="H1" >Личный кабинет. Главная</TextBlock>
+        
+        <StackPanel Grid.Row="1" Margin="5" Background="White">
+            <Grid Background="Aqua">
+                <TextBlock VerticalAlignment="Center" Margin="5"
+                           Classes="H2">Эффективность сети</TextBlock>
+                <Button HorizontalAlignment="Right" Tag="EfficientBlock" Margin="5"
+                        Click="HideButton_OnClick">Скрыть</Button>
+            </Grid>
+            <StackPanel Name="EfficientBlock" >
+                <Canvas>
+                    <charts:PieChart Series="{Binding EfficientBlockSeries}" 
+                                     Width="{Binding ElementName=EfficientBlock,
+                                     Path=Bounds.Width}" 
+                                     Canvas.Top="15"
+                                     Height="380"
+                                     MinValue="0" MaxAngle="145" InitialRotation="-165"
+                                     VisualElements="{Binding EfficientBlockVisual}"
+                                     MaxValue="100"></charts:PieChart>
+                    <Grid Canvas.Top="235" Width="{Binding $parent[StackPanel].Bounds.Width}">
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding StatusesInfo.WorkingPercent,
+                        StringFormat={}Работающих автоматов - {0:N2}%}"></TextBlock>
+                    </Grid>
+                </Canvas>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
+            <Grid Background="PaleVioletRed">
+                <TextBlock VerticalAlignment="Center" Margin="5"
+                           Classes="H2">Состояние сети</TextBlock>
+                <Button HorizontalAlignment="Right" Tag="NetStateBlock" Margin="5"
+                        Click="HideButton_OnClick">Скрыть</Button>
+            </Grid>
+            <StackPanel Name="NetStateBlock" Background="White">
+                <charts:PieChart Series="{Binding NetStateBlockSeries}"
+                                 LegendPosition="Right"
+                                 LegendTextSize="14"
+                                 Width="{Binding ElementName=NetStateBlock,
+                                 Path=Bounds.Width}" Height="300">
+                    <charts:PieChart.SeriesTemplate>
+                        <DataTemplate>
+                            
+                        </DataTemplate>
+                    </charts:PieChart.SeriesTemplate>
+                </charts:PieChart>
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" >
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}Всего: {0}, неработающих: {1}, работающих: {2}, на обслуживании: {3}">
+                            <Binding Path="MachinesAmount"></Binding>
+                            <Binding Path="StatusesInfo.NotWorkingAmount"></Binding>
+                            <Binding Path="StatusesInfo.WorkingAmount"></Binding>
+                            <Binding Path="StatusesInfo.InServiceAmount"></Binding>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1"  Grid.Column="2" Margin="5" Background="White">
+            <Grid Background="CornflowerBlue">
+                <TextBlock VerticalAlignment="Center" Margin="5"
+                           Classes="H2">Сводка</TextBlock>
+                <Button HorizontalAlignment="Right" Tag="StatisticBlock" Margin="5"
+                        Click="HideButton_OnClick">Скрыть</Button>
+            </Grid>
+            <StackPanel Margin="5" Name="StatisticBlock" Spacing="5" >
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left">Денег в ТА</TextBlock>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding MoneyInfo.TotalCash}"></TextBlock>
+                </Grid>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left">Сдачи в ТА</TextBlock>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding MoneyInfo.TotalChange}"></TextBlock>
+                </Grid>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left">Выручка сегодня</TextBlock>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding IncomeToday}"></TextBlock>
+                </Grid>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left">Выручка вчера</TextBlock>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding IncomeYesterday}"></TextBlock>
+                </Grid>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left">Инкассировано сегодня</TextBlock>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding CashCollectionsToday}"></TextBlock>
+                </Grid>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left">Инкассировано вчера</TextBlock>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding CashCollectionsYesterday}"></TextBlock>
+                </Grid>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left">Обслужено сегодня/вчера</TextBlock>
+                    <TextBlock HorizontalAlignment="Right" >
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}/{1}">
+                                <Binding Path="ServicesInfo.ServicesAmountToday"></Binding>
+                                <Binding Path="ServicesInfo.ServicesAmountYesterday"></Binding>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+        
+        <StackPanel Grid.Column="0"  Grid.Row="2" Grid.ColumnSpan="2" Margin="5" Background="White">
+            <Grid Background="LightGreen">
+                <TextBlock VerticalAlignment="Center" Margin="5"
+                           Classes="H2">Динамика продаж за последние 10 дней</TextBlock>
+                <Button HorizontalAlignment="Right" Tag="DynamicBlock" Margin="5"
+                        Click="HideButton_OnClick">Скрыть</Button>
+            </Grid>
+            <StackPanel Margin="5" Name="DynamicBlock" Spacing="5" >
+                <TextBlock Text="{Binding DatesText}"></TextBlock>
+                <StackPanel Spacing="5" Orientation="Horizontal">
+                    <Button Classes="ChooseButton"
+                            Command="{Binding ShowSellsBySum}"
+                            IsEnabled="{Binding !ShowSellsBySumFlag}"
+                    >По сумме</Button>
+                    <Button Classes="ChooseButton"
+                            IsEnabled="{Binding ShowSellsBySumFlag}"
+                            Command="{Binding ShowSellsByQuantity}"
+                    >По количеству</Button>
+                </StackPanel>
+                <charts:CartesianChart Height="400"
+                                       XAxes="{Binding AxisArray}" 
+                                       Series="{Binding DynamicBlockSeries}" >
+                </charts:CartesianChart>
+            </StackPanel>
+        </StackPanel>
+        
+        <StackPanel Grid.Column="2" Grid.Row="2" Margin="5" Background="White">
+            <Grid Background="MediumPurple">
+                <TextBlock VerticalAlignment="Center" Margin="5"
+                           Classes="H2">Новости</TextBlock>
+                <Button HorizontalAlignment="Right" Tag="NewsBlock" Margin="5"
+                        Click="HideButton_OnClick">Скрыть</Button>
+            </Grid>
+            <StackPanel Name="NewsBlock">
+                <ItemsControl MaxHeight="300" ItemsSource="{Binding News}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="5" ColumnDefinitions="Auto,*">
+                                <TextBlock Margin="0 0 5 0" Text="{Binding Date}" HorizontalAlignment="Left"></TextBlock>
+                                <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="{Binding Title}" 
+                                           HorizontalAlignment="Right" TextAlignment="End"></TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

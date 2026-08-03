@@ -1,0 +1,138 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:DesktopApp.ViewModels.Pages"
+             Loaded="Page_OnLoaded"
+             Name="Page"
+             x:DataType="vm:CompaniesPageViewModel"
+             x:Class="DesktopApp.Views.Pages.CompaniesPage">
+     <Grid>
+        <StackPanel>
+            <Grid>
+                <StackPanel HorizontalAlignment="Left">
+                    <TextBlock Classes="H1">Компании</TextBlock>
+                    <TextBlock Text="{Binding TotalCount,
+                    StringFormat={}Всего найдено {0} шт.}"></TextBlock>
+                </StackPanel>
+                <StackPanel Spacing="5" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Classes="ChooseButton"
+                            Command="{Binding ShowInTableRegimeCommand}"
+                            IsEnabled="{Binding !TableRegime}"
+                    >Таблица</Button>
+                    <Button Classes="ChooseButton"
+                            IsEnabled="{Binding TableRegime}"
+                            Command="{Binding ShowInPanelRegimeCommand}"
+                    >Плитка</Button>
+                </StackPanel>
+            </Grid>
+            <Grid>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal" Spacing="5">
+                    <TextBlock VerticalAlignment="Center">Показать</TextBlock>
+                    <ComboBox ItemsSource="{Binding PageLimits}"
+                              SelectedItem="{Binding PageLimit}">
+                    </ComboBox>
+                    <TextBlock VerticalAlignment="Center">записей</TextBlock>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center" Spacing="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBox Watermark="Поиск" Text="{Binding SearchText}"></TextBox>
+                </StackPanel>
+                <StackPanel Spacing="5" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Margin="0 10">
+                    <Button Command="{Binding AddCommand}">Добавить</Button>
+                    <Button Click="CsvMenuItem_OnClick" Content="Экспорт">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Click="CsvMenuItem_OnClick" Header="В .csv"></MenuItem>
+                                <MenuItem Click="PdfMenuItem_OnClick" Header="В .pdf"></MenuItem>
+                                <MenuItem Click="HtmlMenuItem_OnClick" Header="В .html"></MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <DataGrid Name="DataGrid" ItemsSource="{Binding Companies}" IsReadOnly="True" CanUserResizeColumns="True"
+                      MaxHeight="500"
+                      IsVisible="{Binding TableRegime}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" Header="ID"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Название"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding UpperCompanyName}" Header="Вышестоящая компания"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Address}" Header="Адрес"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Contacts}" Header="Контакты"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding DateWorkStarted}" Header="Начало работы"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Description}" Header="Описание"></DataGridTextColumn>
+                    <DataGridTemplateColumn Header="Действия">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Foreground="{StaticResource PrimaryColor}" Command="{Binding ElementName=Page,
+                                        Path=((vm:CompaniesPageViewModel)DataContext).EditCommand}"
+                                            CommandParameter="{Binding Id}">✏</Button>
+                                    <Button Foreground="{StaticResource PrimaryColor}" Command="{Binding ElementName=Page,
+                                        Path=((vm:CompaniesPageViewModel)DataContext).DeleteCommand}"
+                                            CommandParameter="{Binding Id}">🗑</Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <ListBox MaxHeight="500" IsVisible="{Binding !TableRegime}" Name="ListBox" ItemsSource="{Binding Companies}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" ItemSpacing="5" LineSpacing="5"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Width="200" Spacing="5" Background="{StaticResource LightColor}">
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Id,
+                            StringFormat={}ID: {0}}"></TextBlock>
+                            <TextBlock TextWrapping="Wrap" FontWeight="DemiBold" Text="{Binding Name}"></TextBlock>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding UpperCompanyName}"></TextBlock>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Address}"></TextBlock>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Contacts}"></TextBlock>
+                            <TextBlock TextWrapping="Wrap"  Text="{Binding DateWorkStarted,
+                            StringFormat={}Начало работы {0}}"></TextBlock>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Description,
+                            StringFormat={}Описание: {0}}" IsVisible="{Binding Description,
+                            Converter={x:Static ObjectConverters.IsNotNull}}"></TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Foreground="{StaticResource PrimaryColor}" Command="{Binding ElementName=Page,
+                                        Path=((vm:CompaniesPageViewModel)DataContext).EditCommand}"
+                                        CommandParameter="{Binding Id}">✏</Button>
+                                <Button Foreground="{StaticResource PrimaryColor}" Command="{Binding ElementName=Page,
+                                        Path=((vm:CompaniesPageViewModel)DataContext).DeleteCommand}"
+                                        CommandParameter="{Binding Id}">🗑</Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid Margin="5">
+                <TextBlock HorizontalAlignment="Left" Text="{Binding TotalBlockText}" />
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Command="{Binding PreviousPageCommand}">⬅️</Button>
+                    <ItemsControl ItemsSource="{Binding Pages}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Background="{Binding Color}"
+                                        Command="{Binding ElementName=Page,
+                                        Path=((vm:CompaniesPageViewModel)DataContext).ChoosePageNumberCommand}"
+                                        CommandParameter="{Binding PageNumber}"
+                                        Content="{Binding PageNumber}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button Command="{Binding NextPageCommand}">➡️</Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

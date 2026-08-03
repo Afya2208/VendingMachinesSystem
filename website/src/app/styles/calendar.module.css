@@ -1,0 +1,19 @@
+.blockedCell {
+    background-color: red;
+    pointer-events: none;
+}
+.unconfirmedCell {
+    background-color: yellow;
+    pointer-events: none;
+}
+.freeCell {
+    background-color: lightgreen;
+}
+.selectedCell {
+    background-color: deepskyblue;
+}
+
+.specDiv {
+    color: black;
+    background-color: white;
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.TextFragment">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TableRow>
+            <Button
+                android:text="Выделить жирным"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boldButton"/>
+            <Button
+                android:text="Создать список"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/listButton"/>
+        </TableRow>
+        <TableRow>
+            <Button
+                android:text="Прикрепить фото"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/attachButton"/>
+            <Button
+                android:text="Голосовой ввод"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/voiceButton"/>
+        </TableRow>
+    </TableLayout>
+    <EditText
+        android:id="@+id/TR_edit_title"
+        android:gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:text="Заголовок" />
+    <EditText
+        android:id="@+id/TR_edit"
+        android:gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:inputType="textMultiLine"
+        android:text="Текст..." />
+    <Button
+        android:text="Сохранить"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TR_saveButton"/>
+</LinearLayout>

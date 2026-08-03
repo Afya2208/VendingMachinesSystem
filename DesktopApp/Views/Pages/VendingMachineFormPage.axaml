@@ -1,0 +1,130 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="850"
+             xmlns:vm="clr-namespace:DesktopApp.ViewModels.Pages"
+             x:DataType="vm:VendingMachineFormPageViewModel"
+             Loaded="Page_OnLoaded"
+             x:Class="DesktopApp.Views.Pages.VendingMachineFormPage">
+    <UserControl.Styles>
+        <Style Selector="ComboBox">
+            <Setter Property="Width" Value="200"></Setter>
+        </Style>
+    </UserControl.Styles>
+    <Grid>
+        <StackPanel>
+            <TextBlock Classes="H2" HorizontalAlignment="Left" Margin="0 5" Text="{Binding FormTitle}"></TextBlock>
+            <StackPanel Orientation="Horizontal">
+            <StackPanel Width="200" Spacing="5" Margin="10 0">
+                <TextBlock>Название ТА</TextBlock>
+                <TextBox Text="{Binding Machine.Name}"></TextBox>
+                
+                <TextBlock >Режим работы</TextBlock>
+                <ComboBox ItemsSource="{Binding WorkRegimes}" SelectedIndex="0"
+                          SelectedItem="{Binding Machine.MachineAdditionalInformation.WorkRegime}"/>
+                
+                <TextBlock >Адрес</TextBlock>
+                <TextBox  Text="{Binding Machine.Address}"></TextBox>
+                
+                <TextBlock >Номер</TextBlock>
+                <TextBox  Text="{Binding Machine.Number}"></TextBox>
+                
+                <TextBlock >Товарная матрица</TextBlock>
+                <ComboBox ItemsSource="{Binding ProductMatrices}"
+                          DisplayMemberBinding="{Binding Name}"
+                          SelectedValueBinding="{Binding Id}"
+                          SelectedValue="{Binding Machine.MachineAdditionalInformation.ProductMatrixId}"/>
+                
+                <TextBlock TextWrapping="Wrap">RFID карты обслуживания</TextBlock>
+                <TextBox Text="{Binding Machine.MachineAdditionalInformation.RfidService}"></TextBox>
+                
+                <TextBlock TextWrapping="Wrap">Id кассы Kit Online (жесткая привязка)</TextBlock>
+                <TextBox Text="{Binding Machine.KitOnlineId}"></TextBox>
+                
+                <TextBlock >Компания владелец</TextBlock>
+                <ComboBox ItemsSource="{Binding Companies}"
+                          DisplayMemberBinding="{Binding Name}"
+                          SelectedValueBinding="{Binding Id}"
+                          SelectedValue="{Binding Machine.OwnerCompanyId}"/>
+                
+                <TextBlock >Дата установки</TextBlock>
+                <CalendarDatePicker Width="200" Watermark="ДД.ММ.ГГГГ"
+                                    SelectedDate="{Binding Machine.DateInstalled,
+                                        Converter={StaticResource DateConverter}}"
+                                    SelectedDateFormat="Short" />
+            </StackPanel>
+            <StackPanel Width="200" Spacing="5" Margin="10 0">
+                <TextBlock >Производитель ТА</TextBlock>
+                <ComboBox ItemsSource="{Binding Manufacturers}"
+                          DisplayMemberBinding="{Binding Name}"
+                          SelectedValueBinding="{Binding Id}"
+                          SelectedValue="{Binding Machine.ManufacturerId}"/>
+                <TextBlock >Место</TextBlock>
+                <TextBox  Text="{Binding Machine.Place}"></TextBox>
+                <TextBlock TextWrapping="Wrap">Время работы (формат: 08:00-22:00)</TextBlock>
+                <TextBox Text="{Binding Machine.MachineAdditionalInformation.WorkTime}"></TextBox>
+                
+                <TextBlock TextWrapping="Wrap">Шаблон крит. значений</TextBlock>
+                <ComboBox ItemsSource="{Binding CriticalValuesTemplates}" SelectedIndex="0"
+                          SelectedItem="{Binding Machine.MachineAdditionalInformation.TemplateCriticalValues}"/>
+                <TextBlock>Способы оплаты</TextBlock>
+                <ItemsControl ItemsSource="{Binding PaymentTypes}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Value.Name}" 
+                                      IsChecked="{Binding IsChecked}"></CheckBox>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock TextWrapping="Wrap">RFID карты инкассации</TextBlock>
+                <TextBox Text="{Binding Machine.MachineAdditionalInformation.RfidCashCollection}"></TextBox>
+                <TextBlock >Приоритет обслуживания</TextBlock>
+                <ComboBox ItemsSource="{Binding ServicePriorities}" SelectedIndex="0"
+                    SelectedItem="{Binding Machine.MachineAdditionalInformation.ServicePriority}"></ComboBox>
+                
+            </StackPanel>
+            <StackPanel Width="200" Spacing="5" Margin="10 0">
+                <TextBlock >Модель ТА</TextBlock>
+                <ComboBox ItemsSource="{Binding Models}"
+                          DisplayMemberBinding="{Binding Name}"
+                          SelectedValueBinding="{Binding Id}"
+                    SelectedValue="{Binding Machine.ModelId}"></ComboBox>
+                
+                <TextBlock >Часовой пояс</TextBlock>
+                <ComboBox ItemsSource="{Binding Timezones}" SelectedIndex="0"
+                    SelectedItem="{Binding Machine.MachineAdditionalInformation.Timezone}"></ComboBox>
+                
+                <TextBlock TextWrapping="Wrap">Шаблон уведомлений</TextBlock>
+                <ComboBox ItemsSource="{Binding NotificationsTemplates}" SelectedIndex="0"
+                    SelectedItem="{Binding Machine.MachineAdditionalInformation.TemplateNotifications}"></ComboBox>
+                
+                <TextBlock TextWrapping="Wrap">RFID карты загрузки</TextBlock>
+                <TextBox Text="{Binding Machine.MachineAdditionalInformation.RfidLoad}"></TextBox>
+                
+                <TextBlock >Модем</TextBlock>
+                <TextBox Text="{Binding Machine.ModemNumber}"></TextBox>
+                
+                <TextBlock >Количество команд</TextBlock>
+                <TextBox Text="{Binding Machine.MachineTechnicalInformation.CommandsAmount}"></TextBox>
+                
+                <TextBlock >Количество деталей</TextBlock>
+                <TextBox Text="{Binding Machine.MachineTechnicalInformation.DetailsAmount}"></TextBox>
+                
+                <TextBlock >Статус работы</TextBlock>
+                <ComboBox ItemsSource="{Binding WorkStatuses}"
+                          DisplayMemberBinding="{Binding Name}"
+                          SelectedValueBinding="{Binding Id}"
+                          SelectedValue="{Binding Machine.WorkStatusId}"></ComboBox>
+            </StackPanel>
+        </StackPanel>
+            <StackPanel Margin="10" Orientation="Horizontal" Spacing="5">
+                <Button 
+                    Command="{Binding SaveDataCommand}">Сохранить</Button>
+                <Button
+                    Command="{Binding CloseFormCommand}">Отмена</Button>
+            </StackPanel>
+        </StackPanel>
+        
+    </Grid>
+</UserControl>

@@ -1,0 +1,20 @@
+{
+  "main": {
+    "title": "Main page",
+    "text": "Text",
+    "reg": "Registration",
+    "auth": "Authorization",
+    "contracts": "Contracts",
+    "reserving": "Reserving vending machines",
+    "machines": "Vending machines",
+    "notifications": "Notifications",
+    "settings": "Settings"
+  },
+  "error": {
+    "title": "Some error happened..."
+  },
+  "404": {
+    "title": "What you were looking for was not found..."
+  }
+
+}

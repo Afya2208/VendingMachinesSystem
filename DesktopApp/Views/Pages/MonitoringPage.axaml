@@ -1,0 +1,242 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:DesktopApp.ViewModels.Pages"
+             x:DataType="vm:MonitoringPageViewModel"
+             Name="Page"
+             x:Class="DesktopApp.Views.Pages.MonitoringPage">
+     <Grid>
+        <StackPanel>
+            <!---  
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <TextBlock>Общее состояние</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Name="G1" Classes="imageButton" Tag="../../../Assets/General/1.png" GroupName="GeneralStatus"></RadioButton>
+                        <RadioButton Name="G2" Classes="imageButton" Tag="../../../Assets/General/2.png" GroupName="GeneralStatus"></RadioButton>
+                        <RadioButton  Name="G3" Classes="imageButton" Tag="../../../Assets/General/3.png" GroupName="GeneralStatus"></RadioButton>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock>Подключение</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Name="C1" Classes="imageButton" Tag="../../../Assets/Connections/подключение1.png" GroupName="Connection"></RadioButton>
+                        <RadioButton  Name="C2" Classes="imageButton" Tag="../../../Assets/Connections/подключение2.png" GroupName="Connection"></RadioButton>
+                        <RadioButton  Name="C3" Classes="imageButton" Tag="../../../Assets/Connections/подключение3.png" GroupName="Connection"></RadioButton>
+                        <RadioButton  Name="C4" Classes="imageButton" Tag="../../../Assets/Connections/подключение3.png" GroupName="Connection"></RadioButton>
+                    </StackPanel>
+                   
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock>Дополнительные статусы</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Name="A1" Classes="imageButton" Tag="../../../Assets/Additional/доп1.png" GroupName="Additional"></RadioButton>
+                        <RadioButton Name="A2" Classes="imageButton" Tag="../../../Assets/Additional/доп2.png" GroupName="Additional"></RadioButton>
+                        <RadioButton Name="A3" Classes="imageButton" Tag="../../../Assets/Additional/доп3.png" GroupName="Additional"></RadioButton>
+                        <RadioButton Name="A4" Classes="imageButton" Tag="../../../Assets/Additional/доп4.png" GroupName="Additional"></RadioButton>
+                        <RadioButton Name="A5" Classes="imageButton" Tag="../../../Assets/Additional/доп5.png" GroupName="Additional"></RadioButton>
+                        <RadioButton Name="A6"  Classes="imageButton" Tag="../../../Assets/Additional/доп6.png" GroupName="Additional"></RadioButton>
+                        <RadioButton Name="A7" Classes="imageButton" Tag="../../../Assets/Additional/доп7.png" GroupName="Additional"></RadioButton>
+                        <RadioButton Name="A8" Classes="imageButton" Tag="../../../Assets/Additional/доп8.png" GroupName="Additional"></RadioButton>
+                    </StackPanel>
+                   
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock>Сортировка</TextBlock>
+                    <ComboBox Name="SortComboBox">
+                        <ComboBoxItem>По состоянию ТА</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding ApplyFilterAndSortCommand}">Применить</Button>
+                <Button Command="{Binding CleanCommand}">Очистить</Button>
+            </StackPanel>
+            <DataGrid Name="DataGrid" ItemsSource="{Binding Machines}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Number}" Header="#"></DataGridTextColumn>
+                    <DataGridTemplateColumn Header="Торговый автомат">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                  <Image Width="30" Height="30" Source="{Binding StatusPath, 
+                                  Converter={StaticResource ImageFileConvertor}}"></Image>
+                                    <StackPanel DataContext="{Binding .Machine}">
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} - '{1}'">
+                                                    <Binding Path="Number"></Binding>
+                                                    <Binding Path="Name"></Binding>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} (KitBox {1}) {2}">
+                                                    <Binding Path="Model.Name"></Binding>
+                                                    <Binding Path="KitOnlineId"></Binding>
+                                                    <Binding Path="Address"></Binding>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Связь">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel DataContext="{Binding .Machine}" Orientation="Vertical">
+                                   <StackPanel Orientation="Horizontal">
+                                       <Image Width="30" Height="30" Source="{Binding PingPath, 
+                                       Converter={StaticResource ImageFileConvertor}}"></Image>
+                                       <Image Width="30" Height="30" Source="{Binding ProviderPath, 
+                                       Converter={StaticResource ImageFileConvertor}}"></Image>
+                                   </StackPanel>
+                                    <TextBlock Text="{Binding MachineProvider.Summ, StringFormat={}{0} р.}"></TextBlock>
+                                    <TextBlock Text="{Binding  ElementName=Page, Path=((vm:MonitoringPageViewModel)DataContext).Time}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Загрузка">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel >
+                                    <TextBlock>Общая</TextBlock>
+                                    <ProgressBar Height="20" Value="{Binding MachineLoad.Total}" Maximum="10" Minimum="0"></ProgressBar>
+                                    <TextBlock>Минимальная</TextBlock>
+                                    <ProgressBar Height="20" Value="{Binding MachineLoad.Minimal}" Maximum="10" Minimum="0"></ProgressBar>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Денежные средства">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="30" Height="30" Source="/Assets/Moneys/banknots.png"></Image>
+                                        <TextBlock>
+                                               <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} р. ({1} купюр)">
+                                                <Binding Path="MachineMoney.BanknotsSumm"></Binding>
+                                                <Binding Path="MachineMoney.BanknotsAmount"></Binding>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                        </TextBlock>
+                                        
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="30" Height="30" Source="/Assets/Moneys/coins.png"></Image>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} р. ({1} монет)">
+                                                    <Binding Path="MachineMoney.CoinsSumm"></Binding>
+                                                    <Binding Path="MachineMoney.CoinsAmount"></Binding>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="30" Height="30" Source="/Assets/Moneys/change.png"></Image>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} р. ({1} монет)">
+                                                    <Binding Path="MachineMoney.CoinsChangeSum"></Binding>
+                                                    <Binding Path="MachineMoney.CoinsChange"></Binding>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="События">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                               <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="30" Height="30" Source="/Assets/Additional/доп5.png"></Image>
+                                        <TextBlock Text="{Binding LastCashCollection}">
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="30" Height="30" Source="/Assets/Additional/доп3.png"></Image>
+                                        <TextBlock Text="{Binding LastSell}">
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="30" Height="30" Source="/Assets/Additional/доп7.png"></Image>
+                                        <TextBlock Text="{Binding LastCashCollection}">
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Оборудование">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel Orientation="Horizontal">
+                                   <Image Width="30" Height="30" Source="{Binding MachineEquipment.CardsPath, Converter={StaticResource ImageFileConvertor}}"></Image>
+                                   <Image Width="30" Height="30" Source="{Binding MachineEquipment.ContactlessPath, Converter={StaticResource ImageFileConvertor}}"></Image>
+                                   <Image Width="30" Height="30" Source="{Binding MachineEquipment.CashPath, Converter={StaticResource ImageFileConvertor}}"></Image>
+                                   <Image Width="30" Height="30" Source="{Binding MachineEquipment.DisplayPath, Converter={StaticResource ImageFileConvertor}}"></Image>
+                                   <Image Width="30" Height="30" Source="{Binding MachineEquipment.ModemPath, Converter={StaticResource ImageFileConvertor}}"></Image>
+                                   <Image Width="30" Height="30" Source="{Binding MachineEquipment.PowerPath, Converter={StaticResource ImageFileConvertor}}"></Image>
+                                   <Image Width="30" Height="30" Source="{Binding MachineEquipment.ChequesPath, Converter={StaticResource ImageFileConvertor}}"></Image>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Информация">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding Statuses}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal"></WrapPanel>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Image Width="20" Height="20" Source="{Binding Path, 
+                                            Converter={StaticResource ImageFileConvertor}}"></Image>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Доп.">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <Image Width="30" Height="30" Source="/Assets/Additional/commands.png"></Image>
+                                        <Image Width="30" Height="30" Source="/Assets/Additional/лупа.png"></Image>
+                                    </StackPanel>
+                                    <TextBlock HorizontalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}/{1}">
+                                                <Binding Path="MachineTechnicalInformation.CommandsAmount"></Binding>
+                                                <Binding Path="MachineTechnicalInformation.DetailsAmount"></Binding>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Name="ResultsTextBlock"></TextBlock>
+            !-->
+        </StackPanel>
+    </Grid>
+</UserControl>

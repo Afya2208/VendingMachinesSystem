@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:DesktopApp.ViewModels.Pages"
+             x:DataType="vm:AuthPageViewModel"
+             x:Class="DesktopApp.Views.Pages.AuthPage">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image Margin="10" Width="80" Height="80" Source="/Assets/logo.png"></Image>
+            <TextBlock Classes="H1">Авторизация</TextBlock>
+            <TextBlock>Email</TextBlock>
+            <TextBox Name="Email" Text="{Binding Email}"></TextBox>
+            <TextBlock>Пароль</TextBlock>
+            <TextBox  Name="Password" Text="{Binding Password}" PasswordChar="*"></TextBox>
+            <StackPanel Margin="5" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button Name="SignInButton" Margin="5" Command="{Binding SignInCommand}"
+                        IsDefault="True">Войти</Button>
+                <Button Margin="5" IsCancel="True" Click="CloseButton_OnClick" >Отмена</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

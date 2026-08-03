@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:pages="clr-namespace:DesktopApp.ViewModels.Pages"
+             x:DataType="pages:CompanyFormPageViewModel"
+             Loaded="Page_OnLoaded"
+             x:Class="DesktopApp.Views.Pages.CompanyFormPage">
+    <UserControl.Styles>
+        <Style Selector="ComboBox">
+            <Setter Property="Width" Value="200"></Setter>
+        </Style>
+    </UserControl.Styles>
+    <Grid>
+        <StackPanel>
+            <TextBlock Classes="H2" HorizontalAlignment="Left" Margin="0 5" Text="{Binding FormTitle}"></TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Width="200" Spacing="5" Margin="10 0">
+                    <TextBlock>Название компании</TextBlock>
+                    <TextBox Text="{Binding Company.Name}"></TextBox>
+                    <TextBlock>Примечания</TextBlock>
+                    <TextBox Width="400" HorizontalAlignment="Left" 
+                             Text="{Binding Company.Description}"></TextBox>
+                </StackPanel>
+                <StackPanel Width="200" Spacing="5" Margin="10 0">
+                    <TextBlock>Вышестоящая компания</TextBlock>
+                    <ComboBox DisplayMemberBinding="{Binding Name}" 
+                              SelectedValueBinding="{Binding Id}"
+                              SelectedValue="{Binding Company.UpperCompanyId}" 
+                              ItemsSource="{Binding Companies}"></ComboBox>
+                    
+                </StackPanel>
+                <StackPanel Width="200" Spacing="5" Margin="10 0">
+                    <TextBlock>Адрес компании</TextBlock>
+                    <TextBox  Text="{Binding Company.Address}"></TextBox>
+                    <TextBlock>Контакты компании</TextBlock>
+                    <TextBox Text="{Binding Company.Contacts}"></TextBox>
+                    <TextBlock >Дата начала работы</TextBlock>
+                    <CalendarDatePicker Width="200" Watermark="ДД.ММ.ГГГГ"
+                                        SelectedDate="{Binding Company.DateWorkStarted,
+                                        Converter={StaticResource DateConverter}}"
+                                        SelectedDateFormat="Short" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Margin="10" Orientation="Horizontal" Spacing="5">
+                <Button Command="{Binding SaveDataCommand}"
+                        IsDefault="True">Сохранить</Button>
+                <Button Command="{Binding CloseFormCommand}">Отмена</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

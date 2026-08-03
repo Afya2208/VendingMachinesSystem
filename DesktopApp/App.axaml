@@ -1,0 +1,84 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="DesktopApp.App"
+             xmlns:vmp="clr-namespace:DesktopApp.ViewModels.Pages"
+             xmlns:pages="clr-namespace:DesktopApp.Views.Pages"
+             xmlns:local="clr-namespace:DesktopApp"
+             xmlns:windows="clr-namespace:DesktopApp.Views.Windows"
+             xmlns:util="clr-namespace:DesktopApp.Util"
+             RequestedThemeVariant="Light">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+  
+    <Application.Resources>
+        <util:ImageFileConverter x:Key="ImageFileConverter"></util:ImageFileConverter>
+        <util:DateConverter x:Key="DateConverter"></util:DateConverter>
+        
+        
+        <SolidColorBrush x:Key="DarkColor">#262626</SolidColorBrush>
+        <SolidColorBrush x:Key="LightColor">#ededed</SolidColorBrush>
+        <SolidColorBrush x:Key="PrimaryColor">#007adb</SolidColorBrush>
+        <SolidColorBrush x:Key="LightTextColor">#ededed</SolidColorBrush>
+        <SolidColorBrush x:Key="DarkTextColor">#262626</SolidColorBrush>
+    </Application.Resources>
+             
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"></StyleInclude>
+        
+        <Style Selector="RadioButton.ImageRadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Width="60" Height="60" Background="{TemplateBinding Background}">
+                            <Image VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                   Source="{TemplateBinding Tag, 
+                                   Converter={StaticResource ImageFileConverter}}" 
+                                   Width="50" Height="50"></Image>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style Selector="^[IsChecked=True]">
+                <Setter Property="Background" Value="DarkGray"></Setter>
+            </Style>
+        </Style>
+        
+        <Style Selector="RadioButton.imageButton[IsChecked=True]">
+            <Setter Property="Background" Value="DarkGray"></Setter>
+        </Style>
+        <Style Selector="TextBlock.input">
+            <Setter Property="Height" Value="35"></Setter>
+        </Style>
+        <Style Selector="TextBox.input">
+            <Setter Property="Height" Value="35"></Setter>
+        </Style>
+        <Style Selector="ComboBox.input">
+            <Setter Property="Height" Value="35"></Setter>
+        </Style>
+        
+        <Style Selector="DataGridRow">
+            <Setter Property="MinHeight" Value="45"></Setter>
+        </Style>
+        
+        <Style Selector="DataGridRow:nth-child(2n+1)">
+            <Setter Property="Background" Value="LightGray"></Setter>
+        </Style>
+        
+        <Style Selector="TextBlock.H1">
+            <Setter Property="FontSize" Value="24"></Setter>
+            <Setter Property="FontWeight" Value="SemiBold"></Setter>
+        </Style>
+        <Style Selector="TextBlock.H2">
+            <Setter Property="FontSize" Value="18"></Setter>
+            <Setter Property="FontWeight" Value="SemiBold"></Setter>
+        </Style>
+        <Style Selector="Button.ChooseButton:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="{StaticResource PrimaryColor}"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource DarkTextColor}"></Setter>
+        </Style>
+    </Application.Styles>
+</Application>

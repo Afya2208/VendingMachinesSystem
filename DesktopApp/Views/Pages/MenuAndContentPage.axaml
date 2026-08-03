@@ -1,0 +1,95 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:DesktopApp.ViewModels.Pages"
+             x:DataType="vm:MenuAndContentPageViewModel"
+             x:Class="DesktopApp.Views.Pages.MenuAndContentPage">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="TreeViewItemForeground"  Color="White"/>
+    </UserControl.Resources>
+    <Grid RowDefinitions="Auto,*">
+        <Grid>
+            <Image HorizontalAlignment="Left" Margin="10" Source="/Assets/logo.png" Width="60" Height="60"></Image>
+            <Menu Height="70" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image VerticalAlignment="Center" Margin="5" Width="60" Height="60" Source="{Binding Image}"></Image>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="{Binding FullName}"></TextBlock>
+                                <TextBlock Text="{Binding Role}"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <MenuItem Header="Мой профиль"/>
+                    <MenuItem Header="Мои сессии"/>
+                    <MenuItem Header="Выход" Command="{Binding SignOutCommand}"/>
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <SplitView Grid.Row="1" OpenPaneLength="250" DisplayMode="Inline"  IsPaneOpen="{Binding IsPaneOpened}">
+            <SplitView.Pane>
+                <StackPanel Background="{StaticResource DarkColor}">
+                    <Grid Margin="3">
+                        <TextBlock Margin="7 0" Foreground="{StaticResource LightTextColor}" VerticalAlignment="Center" IsVisible="{Binding IsPaneOpened}" 
+                                   HorizontalAlignment="Left">Навигация</TextBlock>
+                        <Button Foreground="{StaticResource LightTextColor}" 
+                                HorizontalAlignment="Right" IsVisible="{Binding IsPaneOpened}"
+                                Command="{Binding MenuButtonClick}">Меню</Button>
+                    </Grid>
+                    <TreeView IsVisible="{Binding IsPaneOpened}" 
+                              Foreground="{StaticResource LightTextColor}" Name="MenuTreeView"
+                              SelectionChanged="MenuTreeView_OnSelectionChanged">
+                        <TreeView.Styles>
+                            <Style Selector="TreeViewItem">
+                                <Setter Property="Foreground" Value="{StaticResource LightTextColor}"></Setter>
+                            </Style>
+                            <Style Selector="TreeViewItem /template/ ToggleButton#PART_ExpandCollapseChevron /template/ Path#ChevronPath">
+                                <Setter Property="Fill" Value="{StaticResource LightTextColor}" />
+                            </Style>
+                            <Style Selector="TreeViewItem:checked /template/ ToggleButton#PART_ExpandCollapseChevron /template/ Path#ChevronPath">
+                                <Setter Property="Fill" Value="{StaticResource LightTextColor}" />
+                            </Style>
+                        </TreeView.Styles>
+                        <TreeViewItem Header="Главная"/>
+                        <TreeViewItem Header="Монитор ТА"/>
+                        <TreeViewItem Header="Детальные отчеты">
+                            <StackPanel>
+                                                                    
+                            </StackPanel>    
+                        </TreeViewItem>
+                        <TreeViewItem Header="Учет ТМЦ">
+                            <StackPanel>
+                                                                        
+                            </StackPanel>
+                        </TreeViewItem>
+                        <TreeViewItem Header="Администрирование">
+                            <TreeViewItem Header="Торговые автоматы"></TreeViewItem>
+                            <TreeViewItem Header="Компании"></TreeViewItem>
+                            <TreeViewItem Header="Пользователи"></TreeViewItem>
+                            <TreeViewItem Header="Модемы"></TreeViewItem>
+                            <TreeViewItem Header="Дополнительно"></TreeViewItem>
+                        </TreeViewItem>
+                    </TreeView>
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Grid RowDefinitions="Auto, *">
+                    <Grid Height="36" Background="{StaticResource DarkColor}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Button Foreground="{StaticResource LightTextColor}" 
+                                    IsVisible="{Binding !IsPaneOpened}"
+                                    Command="{Binding MenuButtonClick}">Меню</Button>
+                            <TextBlock Margin="7" Foreground="{StaticResource LightTextColor}" VerticalAlignment="Center" HorizontalAlignment="Left">ООО Торговые автоматы</TextBlock>
+                        </StackPanel>
+                        <TextBlock Margin="7" Foreground="{StaticResource LightTextColor}" VerticalAlignment="Center" HorizontalAlignment="Right" 
+                                   Text="{Binding NavigationService.Title}"/>
+                    </Grid>
+                    <ContentControl Margin="5" Grid.Row="1" Content="{Binding NavigationService.CurrentViewModel}"/>
+                </Grid>
+            </SplitView.Content>
+        </SplitView>
+    </Grid>
+</UserControl>
