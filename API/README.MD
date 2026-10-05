@@ -5,9 +5,8 @@ RESTful Web-API ASP.NET Core 9 для системы франчайзинга в
 
 Настройка подключения к базе данных и JWT производится через файл appsettings.json
 
-СУБД: PostgreSQL
-
-ORM: Entity Framework Core 9
+СУБД PostgreSQL
+ORM Entity Framework Core 9
 
 ## Использованные библиотеки
 | Название                                      | Версия |
